@@ -47,6 +47,7 @@ private:
   // Stack pointer that currently points to the top of the stack.
   uint8_t m_sp;
 
+  // 4KB block of RAM
   std::array<uint8_t, CHIP8_MEMORY_SIZE> m_memory;
 
   // 16 8 bit general purpose registers.  On chip8, they are typically referred to as Vx
@@ -57,6 +58,15 @@ private:
   // exceed 16 functions.
   std::array<uint16_t, CHIP8_STACK_SIZE> m_stack;
 
+  // Delay register.  This value should decrement at 60Hz if it is set to a non-zero
+  // value.
+  uint8_t m_delay;
+
+  // Timer register.  This value should decrement at 60Hz if it is set to a non-zero
+  // value.  As long as it's non-zero, the processor buzzer should play a single tone
+  // at a set frequency.
+  uint8_t m_timer;
+
   /**
    * Decodes and executes the opcode in the given instruction.
    *
@@ -64,6 +74,17 @@ private:
    *   instruction - 16 value holding the instruction to be executed by the processor
    */
   void execute(uint16_t instruction);
+
+  /**
+   * Fetches the instruction at the given address.
+   *
+   * @params
+   *   address - the 16 bit address of the instruction to be fetched
+   *
+   * @returns
+   *   The 16 bit instruction pointed to by the given address
+   */
+  uint16_t fetch(uint16_t address);
 };
 
 #endif
