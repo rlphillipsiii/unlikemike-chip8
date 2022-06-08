@@ -8,6 +8,7 @@
 #define CHIP8_MEMORY_SIZE 4096
 #define CHIP8_GENERAL_PURPOSE_REGISTER_COUNT 16
 #define CHIP8_STACK_SIZE 16
+#define CHIP8_VIDEO_SIZE 64 * 32
 
 class Chip8Processor {
 public:
@@ -57,6 +58,9 @@ private:
   // 16 16 bit slots for the stack, which implies that the function call stack can never
   // exceed 16 functions.
   std::array<uint16_t, CHIP8_STACK_SIZE> m_stack;
+
+  // 64 x 32 monochrome display buffer
+  std::array<uint32_t, CHIP8_VIDEO_SIZE> screen;
 
   // Delay register.  This value should decrement at 60Hz if it is set to a non-zero
   // value.
